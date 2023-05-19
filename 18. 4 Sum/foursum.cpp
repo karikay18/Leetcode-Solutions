@@ -32,7 +32,7 @@ public:
                 }
 
             }
-            
+
         }
         return ans;
     }
