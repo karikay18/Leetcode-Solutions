@@ -1,17 +1,13 @@
-#include <string>
-using namespace std;
-
 class Solution {
 public:
     string largestOddNumber(string num) {
-        int n = num.size();
-        string ans = "";
-        for (int i = n - 1; i >= 0; --i) {
-            if ((num[i] - '0') % 2 != 0) {
-                ans = num.substr(0, i + 1); // Store the substring up to the largest odd digit
-                break; // Found the largest odd digit, exit the loop
-            }
+        if (num.back() % 2 == 1) return num;
+        int i = num.length() - 1;
+        while (i >= 0) {
+            int n = num[i];
+            if (n % 2 == 1) return num.substr(0, i + 1);
+            i--;
         }
-        return ans;
+        return "";
     }
 };
