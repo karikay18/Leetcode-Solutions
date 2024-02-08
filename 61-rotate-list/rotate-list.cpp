@@ -13,7 +13,7 @@ public:
         
         temp->next = head; // Make the list circular
         
-        k %= size; // Handle cases where k is larger than the size of the list
+       k %= size; // Handle cases where k is larger than the size of the list
         
         int stepsToNewHead = size - k;
         temp = head;
