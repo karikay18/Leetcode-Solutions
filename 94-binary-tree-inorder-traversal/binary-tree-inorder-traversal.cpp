@@ -14,23 +14,13 @@ public:
     void solve(TreeNode* root,vector<int>&res)
     {
         if(root==NULL)return;
-        if(root->left!=NULL)
-        {
-            solve(root->left,res);
-            // res.push_back(root->left->val);
-        }
+        solve(root->left,res);
         res.push_back(root->val);
-        if(root->right!=NULL)
-        {
-            solve(root->right,res);
-            // res.push_back(root->right->val);
-        }
-
+        solve(root->right,res);
 
     }
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int>res;
-        if(root==NULL)return res;
         solve(root,res);
         return res;
     }
