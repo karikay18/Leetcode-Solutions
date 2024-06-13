@@ -11,24 +11,24 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root,long long min_val,long long max_val, bool &flag)
+    void solve(TreeNode* root,long long maxi,long long mini,bool &flag)
     {
-        if(root==NULL){
+        if(root==NULL)
+        {
             return;
         }
-        if (root->val <= min_val || root->val >= max_val) {
-            flag = false;
+        if(root->val>=maxi || root->val<=mini)
+        {
+            flag=false;
             return;
+            
         }
-        helper(root->left, min_val, root->val, flag);
-        helper(root->right, root->val, max_val, flag);
-        
-
+        solve(root->left,root->val,mini,flag);
+        solve(root->right,maxi,root->val,flag);
     }
     bool isValidBST(TreeNode* root) {
         bool flag=true;
-        helper(root, LLONG_MIN, LLONG_MAX, flag);
+        solve(root,LLONG_MAX,LLONG_MIN,flag);
         return flag;
-        
     }
 };
