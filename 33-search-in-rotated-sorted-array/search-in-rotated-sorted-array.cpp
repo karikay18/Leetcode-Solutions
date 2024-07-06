@@ -1,10 +1,32 @@
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
-       for(int i=0;i<nums.size();i++)
-       {
-        if(nums[i]==target)return i;
-       } 
-    return -1;
+        int n = nums.size();
+        int l = 0;
+        int r = n - 1;
+        
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            
+            if (nums[m] == target) return m;
+            
+            // Right sorted
+            if (nums[m] >= nums[l]) {
+                if (target >= nums[l] && target < nums[m]) {
+                    r = m - 1;
+                } else {
+                    l = m + 1;
+                }
+            } 
+            // Left sorted
+            else {
+                if (target > nums[m] && target <= nums[r]) {
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            }
+        }
+        return -1;
     }
 };
