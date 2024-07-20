@@ -1,30 +1,46 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* removeZeroSumSublists(ListNode* head) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-        int prefix_sum = 0;
-        std::unordered_map<int, ListNode*> prefix_sums;
-        prefix_sums[0] = dummy;
-        ListNode* current = head;
-
-        while (current) {
-            prefix_sum += current->val;
-            if (prefix_sums.find(prefix_sum) != prefix_sums.end()) {
-                ListNode* to_delete = prefix_sums[prefix_sum]->next;
-                int temp_sum = prefix_sum + to_delete->val;
-                while (to_delete != current) {
-                    prefix_sums.erase(temp_sum);
-                    to_delete = to_delete->next;
-                    temp_sum += to_delete->val;
+        // unordered_map<int,ListNode*>mpp;
+        unordered_map<int, ListNode*> mpp;
+         ListNode* dum=new ListNode(0);
+         dum->next=head;
+         mpp[0]=dum;
+         int pre=0;
+         while(head!=NULL)
+         {
+            pre+=head->val;
+            if(mpp.find(pre)!=mpp.end())
+            {
+                ListNode* start=mpp[pre];
+                ListNode* temp=start;
+                int pf=pre;
+                while(temp->next!=head)
+                {
+                    temp=temp->next;
+                    pf+=temp->val;
+                    mpp.erase(pf);
                 }
-                prefix_sums[prefix_sum]->next = current->next;
-            } else {
-                prefix_sums[prefix_sum] = current;
-            }
-            current = current->next;
-        }
+                start->next=head->next;
 
-        return dummy->next;
+
+            }
+            else
+            {
+                mpp[pre]=head;
+            }
+            head=head->next;
+         }
+         return dum->next;
     }
 };
