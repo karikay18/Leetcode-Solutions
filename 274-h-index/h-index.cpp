@@ -1,25 +1,18 @@
 class Solution {
 public:
     int hIndex(vector<int>& citations) {
-        sort(citations.begin(),citations.end());
-        int cnt=0;
-        int maxi=0;
-        for(int i=0;i<citations.size();i++)
-        {
-            cnt=0;
-            for(int j=0;j<citations.size();j++)
-            {
-                if(citations[j]>=citations[i])
-                {
-                    cnt++;
-                }
-                if(cnt<=citations[i])
-            {
-                maxi=max(cnt,maxi);
+        sort(citations.begin(), citations.end());
+        int n = citations.size();
+        int h = 0;
+        
+        for(int i = 0; i < n; i++) {
+            int remainingPapers = n - i; // papers with citations >= citations[i]
+            if(citations[i] >= remainingPapers) {
+                h = remainingPapers;
+                break;
             }
-            }
-            
         }
-        return maxi;
+        
+        return h;
     }
 };
