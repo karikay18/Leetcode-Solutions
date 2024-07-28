@@ -1,12 +1,6 @@
 class Solution {
 public:
-    int sum(vector<int>& nums, int i, int j) {
-        int ans = 0;
-        for(int t = i; t <= j; t++) {  // Corrected loop condition
-            ans += nums[t];
-        }
-        return ans;
-    }
+   
 
     int minSubArrayLen(int target, vector<int>& nums) {
         int n = nums.size();
