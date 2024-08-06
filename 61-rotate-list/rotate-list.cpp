@@ -1,31 +1,44 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-        if (!head || k == 0) return head; // If the list is empty or rotation is unnecessary, return the original head
-        
-        int size = 1; // Start from 1 since we count the head node
-        ListNode* temp = head;
-        
-        while (temp->next) {
-            temp = temp->next;
-            size++;
+        if (head == NULL || head->next == NULL || k == 0) return head;
+
+        // Calculate the length of the list
+        int len = 1; // start from 1 because we are starting from head
+        ListNode* tail = head;
+        while (tail->next != NULL) {
+            len++;
+            tail = tail->next;
         }
-        
-        temp->next = head; // Make the list circular
-        
-       k %= size; // Handle cases where k is larger than the size of the list
-        
-        int stepsToNewHead = size - k;
-        temp = head;
-        
-        while (stepsToNewHead > 1) { // Stop at the node before the new head
-            temp = temp->next;
-            stepsToNewHead--;
+
+        // Calculate the effective rotations needed
+        k = k % len;
+        if (k == 0) return head;
+
+        // Make the list circular
+        tail->next = head;
+
+        // Find the new head and new tail
+        int stepsToNewHead = len - k;
+        ListNode* newTail = head;
+        for (int i = 1; i < stepsToNewHead; i++) {
+            newTail = newTail->next;
         }
-        
-        ListNode* newHead = temp->next;
-        temp->next = nullptr; // Disconnect the list
-        
+        ListNode* newHead = newTail->next;
+
+        // Break the circular list
+        newTail->next = NULL;
+
         return newHead;
     }
 };
