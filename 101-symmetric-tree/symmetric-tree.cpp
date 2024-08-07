@@ -11,24 +11,23 @@
  */
 class Solution {
 public:
-    bool solve(TreeNode* r1,TreeNode* r2)
-    {
-        if(r1!=NULL && r2!=NULL)
-        {
-            bool a=solve(r1->right,r2->left);
-            bool b=solve(r1->left,r2->right);
-            if((r1->val==r2->val)&& a && b)
-                return true;
-            else
-                return false;
-        }
-        else if(r1==NULL && r2==NULL)
+    bool helper(TreeNode* left, TreeNode* right) {
+        if (left == NULL && right == NULL) {
             return true;
-        else
-            return false; 
-        
-    } 
+        }
+        if (left == NULL || right == NULL) {
+            return false;
+        }
+        if (left->val != right->val) {
+            return false;
+        }
+        return helper(left->left, right->right) && helper(left->right, right->left);
+    }
+    
     bool isSymmetric(TreeNode* root) {
-        return root==NULL ||solve(root->left,root->right);
+        if (root == NULL) {
+            return true;
+        }
+        return helper(root->left, root->right);
     }
 };
