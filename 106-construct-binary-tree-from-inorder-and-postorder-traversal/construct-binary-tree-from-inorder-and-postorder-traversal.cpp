@@ -1,38 +1,29 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    
-    TreeNode* check(vector<int>& in,vector<int>& post,unordered_map<int,int>& mp,int i,int j,int k){
-        // cout<<i<<"=="<<j<<"=="<<k<<"\n";
-        if(i==j){
-            return new TreeNode(in[i]);
+    TreeNode* ok(vector<int> &in,vector<int> &po,int &idx,int st,int ed,unordered_map<int,int> &mymap){
+        if(idx<0 || st>ed){
+            return NULL;
         }
-        for(int t=k;t>=0;t--){
-            if(mp[post[t]]>=i && mp[post[t]]<=j){
-                TreeNode* root=new TreeNode(post[t]);
-                root->left=check(in,post,mp,i,mp[post[t]]-1,t-1);
-                root->right=check(in,post,mp,mp[post[t]]+1,j,t-1);
-                return root;
-            }
-        }
-        return NULL;
+        
+        int mid=mymap[po[idx]];
+        
+        TreeNode* root=new TreeNode(po[idx--]);
+        
+        root->right=ok(in,po,idx,mid+1,ed,mymap);
+        
+        root->left=ok(in,po,idx,st,mid-1,mymap);
+        
+        return root;
     }
-
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        unordered_map<int,int>mp;
+        unordered_map<int,int> mymap;
+        
         for(int i=0;i<inorder.size();i++){
-            mp[inorder[i]]=i;
+            mymap[inorder[i]]=i;
         }
-        return check(inorder,postorder,mp,0,inorder.size()-1,inorder.size()-1);
+        
+        int idx=postorder.size()-1;
+        
+        return ok(inorder,postorder,idx,0,inorder.size()-1,mymap);
     }
 };
