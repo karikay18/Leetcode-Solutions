@@ -1,31 +1,24 @@
 class Solution {
 public:
-
-    void helper(TreeNode* root,TreeNode* &store){
-        if(root->left==NULL && root->right==NULL){
-            store=root;
-            return;
-        }
-        if(root->left){
-            helper(root->left,store);
-        }
-        TreeNode* temp=root->right;
-        if(store!=NULL){
-            root->right=root->left;
-            store->right=temp; 
-        }
-        root->left=NULL;
-        if(temp){
-            store=NULL;
-            helper(temp,store);
-        }
-    }
-
     void flatten(TreeNode* root) {
-        if(root==NULL || (root->left==NULL && root->right==NULL)){
+        if (root == NULL) {
             return;
         }
-        TreeNode* store=NULL;
-        helper(root,store);
+        stack<TreeNode*> st;
+        st.push(root);
+        while (!st.empty()) {
+            TreeNode* temp = st.top();
+            st.pop();
+            if (temp->right != NULL) {
+                st.push(temp->right);  
+            }
+            if (temp->left != NULL) {
+                st.push(temp->left);
+            }
+            if (!st.empty()) {
+                temp->right = st.top();
+            }
+            temp->left = NULL;
+        }
     }
 };
