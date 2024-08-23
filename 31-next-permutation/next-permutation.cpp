@@ -1,30 +1,37 @@
 class Solution {
 public:
-    void nextPermutation(std::vector<int>& nums) {
-        int n = nums.size();
-        int ind = -1;
-
-        // Find the first decreasing element from the right
-        for (int i = n - 1; i > 0; i--) {
-            if (nums[i] > nums[i - 1]) {
-                ind = i;
+    void nextPermutation(vector<int>& nums) {
+        int n=nums.size();
+        bool flag=true;
+        int t=0;
+        for(int i=n-1;i>0;i--)
+        {
+            if(nums[i-1]<nums[i])
+            {
+                // swap(nums[i-1],nums[i]);
+                flag=false;
+                t=i-1;
                 break;
             }
+            
         }
+        if(flag==true)
+        {
 
-        if (ind == -1) {
-            reverse(nums.begin(), nums.end()); // Reverse entire sequence
-            return;
+
+        reverse(nums.begin(),nums.end());
         }
-
-        // Find the smallest element larger than nums[ind-1] to swap with
-        for (int i = n - 1; i >= ind; i--) {
-            if (nums[i] > nums[ind - 1]) {
-                swap(nums[i], nums[ind - 1]);
-                break;
+        else
+        {
+            for(int i=n-1;i>t;i--)
+            {
+                if(nums[t]<nums[i])
+                {
+                    swap(nums[t],nums[i]);
+                    break;
+                }
             }
+            reverse(nums.begin()+t+1,nums.end());
         }
-
-        reverse(nums.begin() + ind, nums.end()); // Reverse the sequence from ind onwards
     }
 };
